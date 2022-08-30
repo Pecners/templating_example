@@ -1,3 +1,5 @@
+# file R/utils/dir_from_template.R
+
 # Functions starting with '.' won't show up in the environment window
 # but will be available in Global Env
 .dir_from_template <- function(new_dir_name, open_editor = TRUE) {
@@ -11,13 +13,12 @@
   # This points to the location of the template files
   files <- list.files("R/templates")
   
-  # For each file, replace values
+  # Write each file to new dir, replacing values in the process
   for (f in files) {
     new_file <- glue::glue("{new_dir}/{f}")
     file.create(new_file)
     readLines(glue::glue("R/templates/{f}")) |> 
-      
-      # In the template 
+      # replace value here 
       gsub("SUBDIR_VAR", new_dir_name, x = _) |> 
       writeLines(text = _, con = new_file)
     
